@@ -2,12 +2,14 @@ import  { BrowserRouter as Router,Routes,Route } from "react-router-dom";
 import { Home,Auth,Orders,Menu } from "./pages"
 import Header from "./components/shared/Header";
 import BottomNav from "./components/shared/BottomNav";
+import CartProvider from "./context/CartProvider";
 
 function App() {
   
 
   return (
     <>
+<CartProvider>
 <Router>
   <Header/>
   <Routes>
@@ -19,6 +21,7 @@ function App() {
     </Routes>
   <BottomNav/>
     </Router>
+</CartProvider>
 
     </>
   )
