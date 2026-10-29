@@ -107,7 +107,14 @@ const Cart = () => {
         </button>
       </div>
 
-      {showSummary && <OrderSummary onClose={() => setShowSummary(false)} />}
+      {showSummary && (
+        <OrderSummary
+          onClose={() => {
+            setShowSummary(false);
+            setAttempted(false);
+          }}
+        />
+      )}
     </aside>
   );
 };

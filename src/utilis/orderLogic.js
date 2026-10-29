@@ -1,3 +1,5 @@
+import { getSubtotal } from './cartLogic.js';
+
 // Order rules as plain functions (no React), so they are easy to test.
 // All money is whole rupees (PKR).
 
@@ -64,4 +66,65 @@ export const validateOrder = ({ items, orderType, details, subtotal, discountTyp
   if (discountError) errors.discount = discountError;
 
   return errors;
+};
+
+// ---------- Placing an order ----------
+
+// Today's date as "2026-10-29" (the cashier's local date). Used to restart numbering each day.
+export const getDayKey = (date) => {
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${date.getFullYear()}-${month}-${day}`;
+};
+
+// 7 -> "#007"
+export const formatOrderNumber = (number) => `#${String(number).padStart(3, '0')}`;
+
+// The next number for a given day: one more than the highest used that day, or 1.
+export const getNextOrderNumber = (orders, dayKey) => {
+  const numbersToday = orders
+    .filter((order) => order.day === dayKey)
+    .map((order) => order.orderNumber);
+  return numbersToday.length === 0 ? 1 : Math.max(...numbersToday) + 1;
+};
+
+// Keep only the details that belong to this order type.
+const pickDetails = (orderType, details) => {
+  if (orderType === 'dine-in') return { tableNumber: Number(details.tableNumber) };
+  if (orderType === 'takeaway') return { customerName: details.customerName.trim() };
+  return { phone: details.phone.trim(), address: details.address.trim() };
+};
+
+// Turns what is on screen into a finished order record.
+// It is a SNAPSHOT: dish names and prices are copied in, so changing the menu
+// later never changes an old order. Totals are recalculated here from the
+// items, so the saved numbers always add up.
+export const buildOrder = (draft, existingOrders, now) => {
+  const { items, orderType, details, discountType, discountValue } = draft;
+  const day = getDayKey(now);
+  const orderNumber = getNextOrderNumber(existingOrders, day);
+
+  const copiedItems = items.map((item) => ({
+    id: item.id,
+    name: item.name,
+    price: item.price,
+    quantity: item.quantity,
+  }));
+  const subtotal = getSubtotal(copiedItems);
+  const discountAmount = calculateDiscountAmount(subtotal, discountType, discountValue);
+
+  return {
+    id: `${day}-${String(orderNumber).padStart(3, '0')}`,
+    day,
+    orderNumber,
+    createdAt: now.toISOString(),
+    status: 'new',
+    orderType,
+    details: pickDetails(orderType, details),
+    items: copiedItems,
+    subtotal,
+    discount: { type: discountType, value: Number(discountValue) || 0 },
+    discountAmount,
+    total: calculateTotal(subtotal, discountAmount),
+  };
 };
