@@ -128,3 +128,25 @@ export const buildOrder = (draft, existingOrders, now) => {
     total: calculateTotal(subtotal, discountAmount),
   };
 };
+
+// ---------- Order history ----------
+
+// Which orders to list, newest first. view is 'today' or 'all'.
+// [...shown] makes a copy, because sort() would otherwise reorder the saved list itself.
+export const getOrdersForView = (orders, view, now) => {
+  const todayKey = getDayKey(now);
+  const shown = view === 'today' ? orders.filter((order) => order.day === todayKey) : orders;
+  return [...shown].sort(
+    (a, b) =>
+      (b.createdAt ?? '').localeCompare(a.createdAt ?? '') || b.orderNumber - a.orderNumber
+  );
+};
+
+// The extra detail shown beside the order type:
+// "Table 5", the customer's name, or the delivery phone number.
+export const getOrderWhoLine = (order) => {
+  const details = order.details ?? {};
+  if (order.orderType === 'dine-in') return details.tableNumber ? `Table ${details.tableNumber}` : '';
+  if (order.orderType === 'takeaway') return details.customerName || '';
+  return details.phone || '';
+};
