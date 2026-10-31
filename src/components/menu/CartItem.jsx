@@ -12,7 +12,7 @@ const CartItem = ({ item }) => {
         <button
           onClick={() => removeFromCart(item.id)}
           aria-label={`Remove ${item.name}`}
-          className="text-[#ababab] hover:text-red-400 mt-1"
+          className="text-[#ababab] hover:text-red-400 p-[15px] -m-[15px] md:p-0 md:m-0 md:mt-1"
         >
           <FaTrash size={14} />
         </button>
@@ -23,7 +23,7 @@ const CartItem = ({ item }) => {
           <button
             onClick={() => decreaseQuantity(item.id)}
             aria-label={`Decrease ${item.name}`}
-            className="bg-[#343434] text-[#f5f5f5] rounded-lg p-2"
+            className="bg-[#343434] text-[#f5f5f5] rounded-lg p-4 md:p-2"
           >
             <FaMinus size={12} />
           </button>
@@ -31,7 +31,7 @@ const CartItem = ({ item }) => {
           <button
             onClick={() => increaseQuantity(item.id)}
             aria-label={`Increase ${item.name}`}
-            className="bg-[#343434] text-[#f5f5f5] rounded-lg p-2"
+            className="bg-[#343434] text-[#f5f5f5] rounded-lg p-4 md:p-2"
           >
             <FaPlus size={12} />
           </button>

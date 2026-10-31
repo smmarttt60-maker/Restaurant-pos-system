@@ -6,7 +6,7 @@ const Field = ({ label, error, ...inputProps }) => (
     <label className="block text-[#ababab] text-sm mb-1">{label}</label>
     <input
       {...inputProps}
-      className={`w-full bg-[#262626] text-[#f5f5f5] rounded-lg px-3 py-2 outline-none border ${
+      className={`w-full bg-[#262626] text-[#f5f5f5] rounded-lg px-3 py-3 md:py-2 outline-none border ${
         error ? 'border-red-400' : 'border-transparent'
       }`}
     />

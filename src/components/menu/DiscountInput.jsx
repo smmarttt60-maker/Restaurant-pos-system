@@ -4,7 +4,7 @@ const DiscountInput = ({ error }) => {
   const { discountType, discountValue, setDiscountType, setDiscountValue } = useCart();
 
   const toggleClass = (type) =>
-    `px-3 py-1 text-sm font-semibold rounded-lg ${
+    `px-4 md:px-3 py-3 md:py-1 text-sm font-semibold rounded-lg ${
       discountType === type ? 'bg-[#f6b100] text-[#1a1a1a]' : 'bg-[#262626] text-[#ababab]'
     }`;
 
@@ -26,7 +26,7 @@ const DiscountInput = ({ error }) => {
             maxLength={7}
             placeholder="0"
             aria-label="Discount value"
-            className={`w-24 bg-[#262626] text-[#f5f5f5] rounded-lg px-3 py-1 outline-none text-right border ${
+            className={`w-24 bg-[#262626] text-[#f5f5f5] rounded-lg px-3 py-2.5 md:py-1 outline-none text-right border ${
               error ? 'border-red-400' : 'border-transparent'
             }`}
           />

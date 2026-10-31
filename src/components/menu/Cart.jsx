@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FaArrowLeft } from 'react-icons/fa';
 import { useCart } from '../../context/CartContext';
 import { validateOrder } from '../../utilis/orderLogic';
 import { formatPrice } from '../../utilis/formatPrice';
@@ -8,7 +9,9 @@ import OrderDetails from './OrderDetails';
 import DiscountInput from './DiscountInput';
 import OrderSummary from './OrderSummary';
 
-const Cart = () => {
+// isOpen / onClose only matter on phones, where the cart is a full-screen panel.
+// From tablet size up (md) the cart is always shown beside the menu, as before.
+const Cart = ({ isOpen = false, onClose = () => {} }) => {
   const {
     cartItems,
     totalItems,
@@ -50,19 +53,35 @@ const Cart = () => {
   };
 
   return (
-    // pb-16 keeps the bottom part clear of the fixed bottom navigation bar
-    <aside className="flex-1 min-w-[320px] max-w-[400px] bg-[#1a1a1a] flex flex-col pb-16">
+    <>
+    {/* Phone: full-screen panel, shown only when opened. md and up: the side panel, as before.
+        (md:pb-16 keeps the bottom part clear of the fixed bottom navigation bar) */}
+    <aside
+      className={`${isOpen ? 'flex' : 'hidden'} md:flex flex-col fixed inset-0 z-40 md:static md:z-auto md:flex-1 md:min-w-[320px] md:max-w-[400px] bg-[#1a1a1a] md:pb-16`}
+    >
       <div className="flex justify-between items-center px-5 py-4">
-        <h2 className="text-[#f5f5f5] text-lg font-semibold tracking-wide">Current Order</h2>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onClose}
+            aria-label="Back to menu"
+            className="md:hidden text-[#f5f5f5] p-[15px] -m-[15px]"
+          >
+            <FaArrowLeft />
+          </button>
+          <h2 className="text-[#f5f5f5] text-lg font-semibold tracking-wide">Current Order</h2>
+        </div>
         {cartItems.length > 0 && (
-          <button onClick={handleClear} className="text-[#ababab] text-sm hover:text-red-400">
+          <button
+            onClick={handleClear}
+            className="text-[#ababab] text-sm hover:text-red-400 p-[15px] -m-[15px] md:p-0 md:m-0"
+          >
             Clear
           </button>
         )}
       </div>
 
       {/* Middle part scrolls if there is a lot in it */}
-      <div className="flex-1 overflow-y-auto scrollbar-hide px-5">
+      <div className="flex-1 overflow-y-auto overscroll-contain scrollbar-hide px-5">
         <OrderTypeSelector />
         <OrderDetails errors={visibleErrors} />
 
@@ -101,21 +120,24 @@ const Cart = () => {
         <button
           onClick={handleReview}
           disabled={cartItems.length === 0}
-          className="mt-3 w-full bg-[#f6b100] text-[#1a1a1a] font-semibold rounded-lg py-2 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="mt-3 w-full bg-[#f6b100] text-[#1a1a1a] font-semibold rounded-lg py-3 md:py-2 disabled:opacity-40 disabled:cursor-not-allowed"
         >
           Review Order
         </button>
       </div>
-
-      {showSummary && (
-        <OrderSummary
-          onClose={() => {
-            setShowSummary(false);
-            setAttempted(false);
-          }}
-        />
-      )}
     </aside>
+
+    {/* Outside the panel on purpose: on a phone the panel hides itself as soon as an order is
+        placed, and this pop-up (the "Order placed" confirmation) must stay on screen. */}
+    {showSummary && (
+      <OrderSummary
+        onClose={() => {
+          setShowSummary(false);
+          setAttempted(false);
+        }}
+      />
+    )}
+    </>
   );
 };
 

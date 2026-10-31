@@ -58,7 +58,7 @@ const OrderSummary = ({ onClose }) => {
     setPlacedOrder(order);
   };
 
-  const boxClass = 'bg-[#1a1a1a] rounded-lg w-[480px] max-w-full max-h-[85vh] overflow-y-auto p-6';
+  const boxClass = 'bg-[#1a1a1a] rounded-lg w-[480px] max-w-full max-h-[85dvh] overflow-y-auto p-4 md:p-6';
 
   // ----- Step 2: confirmation (built from the saved order, because the cart is now empty) -----
   if (placedOrder) {
@@ -79,7 +79,7 @@ const OrderSummary = ({ onClose }) => {
           </p>
           <button
             onClick={onClose}
-            className="mt-4 w-full bg-[#f6b100] text-[#1a1a1a] font-semibold rounded-lg py-2"
+            className="mt-4 w-full bg-[#f6b100] text-[#1a1a1a] font-semibold rounded-lg py-3 md:py-2"
           >
             New order
           </button>
@@ -94,7 +94,7 @@ const OrderSummary = ({ onClose }) => {
       <div role="dialog" aria-modal="true" aria-label="Order summary" className={boxClass}>
         <h2 className="text-[#f5f5f5] text-xl font-semibold">Order Summary</h2>
 
-        <div className="mt-3 text-sm text-[#ababab]">
+        <div className="mt-3 text-sm text-[#ababab] break-words">
           <p className="text-[#f6b100] font-semibold">{getOrderTypeLabel(orderType)}</p>
           {orderType === 'dine-in' && <p>Table {Number(details.tableNumber)}</p>}
           {orderType === 'takeaway' && details.customerName.trim() && (
@@ -110,11 +110,11 @@ const OrderSummary = ({ onClose }) => {
 
         <div className="mt-4 border-t border-[#343434] pt-3">
           {cartItems.map((item) => (
-            <div key={item.id} className="flex justify-between text-[#f5f5f5] py-1">
+            <div key={item.id} className="flex justify-between gap-3 text-[#f5f5f5] py-1">
               <span>
                 {item.quantity} × {item.name}
               </span>
-              <span>{formatPrice(item.price * item.quantity)}</span>
+              <span className="whitespace-nowrap">{formatPrice(item.price * item.quantity)}</span>
             </div>
           ))}
         </div>
@@ -140,13 +140,13 @@ const OrderSummary = ({ onClose }) => {
 
         <button
           onClick={handlePlaceOrder}
-          className="mt-4 w-full bg-[#f6b100] text-[#1a1a1a] font-semibold rounded-lg py-2"
+          className="mt-4 w-full bg-[#f6b100] text-[#1a1a1a] font-semibold rounded-lg py-3 md:py-2"
         >
           Place Order
         </button>
         <button
           onClick={onClose}
-          className="mt-2 w-full bg-[#262626] text-[#f5f5f5] font-semibold rounded-lg py-2"
+          className="mt-2 w-full bg-[#262626] text-[#f5f5f5] font-semibold rounded-lg py-3 md:py-2"
         >
           Back to order
         </button>

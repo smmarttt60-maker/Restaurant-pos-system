@@ -17,13 +17,13 @@ const MenuCard = ({ item }) => {
           <BiSolidDish size={40} />
         </div>
       )}
-      <div className="p-4">
+      <div className="p-3 md:p-4">
         <h2 className="text-[#f5f5f5] font-semibold tracking-wide">{item.name}</h2>
         <p className="text-[#ababab] text-sm mt-1">{item.category}</p>
         <p className="text-[#f6b100] font-bold mt-3">{formatPrice(item.price)}</p>
         <button
           onClick={() => addToCart(item)}
-          className="mt-3 w-full bg-[#f6b100] text-[#1a1a1a] font-semibold rounded-lg py-2"
+          className="mt-3 w-full bg-[#f6b100] text-[#1a1a1a] font-semibold rounded-lg py-2.5 md:py-2"
         >
           Add
         </button>

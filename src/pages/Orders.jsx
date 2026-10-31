@@ -20,16 +20,16 @@ const Orders = () => {
   const selectedOrder = orders.find((order) => order.id === selectedId);
 
   return (
-    <section className="bg-[#1f1f1f] h-[calc(100vh-5rem)] overflow-y-auto scrollbar-hide px-8 py-6 pb-24">
+    <section className="bg-[#1f1f1f] md:h-[calc(100vh-5rem)] md:overflow-y-auto scrollbar-hide px-4 py-4 pb-24 md:px-8 md:py-6">
       <div className="max-w-4xl">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-wrap justify-between items-center gap-3">
           <h1 className="text-[#f5f5f5] text-2xl font-semibold tracking-wide">Orders</h1>
           <div className="flex gap-3">
             {VIEWS.map((item) => (
               <button
                 key={item.id}
                 onClick={() => setView(item.id)}
-                className={`px-5 py-2 rounded-lg font-semibold whitespace-nowrap ${
+                className={`px-5 py-2.5 md:py-2 rounded-lg font-semibold whitespace-nowrap ${
                   view === item.id ? 'bg-[#f6b100] text-[#1a1a1a]' : 'bg-[#1a1a1a] text-[#ababab]'
                 }`}
               >
@@ -48,7 +48,7 @@ const Orders = () => {
             <p className="text-[#ababab]">
               {view === 'today' ? 'No orders placed today yet.' : 'No orders placed yet.'}
             </p>
-            <Link to="/menu" className="inline-block mt-4 bg-[#f6b100] text-[#1a1a1a] font-semibold rounded-lg px-5 py-2">
+            <Link to="/menu" className="inline-block mt-4 bg-[#f6b100] text-[#1a1a1a] font-semibold rounded-lg px-5 py-3 md:py-2">
               Go to Menu
             </Link>
           </div>

@@ -22,14 +22,14 @@ const formatTime = (date) =>
 
 
   return (
-    <div className='flex justify-between items-center px-8 mt-5'>
+    <div className='flex justify-between items-center gap-3 md:gap-0 px-4 md:px-8 mt-5'>
         <div>
             <h1 className='text-[#f5f5f5] text-2xl font-semibold tracking-wide'>Good morning,Sami</h1>
             <p className='text-[#ababab] text-sm'>give your best services to your customers😀  </p>
             
         </div>
         <div className=''>
-          <h1 className='text-[#f5f5f5] text-2xl font-bold tracking-wide w-[130px]'>{formatTime(datetime)}</h1>
+          <h1 className='text-[#f5f5f5] text-2xl font-bold tracking-wide md:w-[130px]'>{formatTime(datetime)}</h1>
           <p className='text-[#ababab] text-sm'>{formatDate(datetime)}</p>
         </div>
     </div>

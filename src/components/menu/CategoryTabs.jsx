@@ -5,7 +5,7 @@ const CategoryTabs = ({ categories, selected, onSelect }) => {
         <button
           key={category}
           onClick={() => onSelect(category)}
-          className={`px-5 py-2 rounded-lg font-semibold whitespace-nowrap ${
+          className={`px-5 py-2.5 md:py-2 rounded-lg font-semibold whitespace-nowrap ${
             selected === category
               ? 'bg-[#f6b100] text-[#1a1a1a]'
               : 'bg-[#1a1a1a] text-[#ababab]'
