@@ -1,15 +1,18 @@
 import { useEffect } from 'react';
 import { getOrderTypeLabel } from '../../constants/orderTypes';
-import { getStatusLabel } from '../../constants/orderStatuses';
+import { getStatus } from '../../constants/orderStatuses';
 import { formatOrderNumber } from '../../utilis/orderLogic';
 import { formatPrice } from '../../utilis/formatPrice';
-import { formatDateTime } from '../../utilis/formatDate';
+import { formatDateTime, formatTime } from '../../utilis/formatDate';
+import StatusBadge from './StatusBadge';
 
 // A pop-up showing one saved order, exactly as it was placed.
-const OrderDetailModal = ({ order, onClose }) => {
+const OrderDetailModal = ({ order, onClose, onAdvance }) => {
   const items = order.items ?? [];
   const details = order.details ?? {};
   const discount = order.discount;
+  const history = order.statusHistory ?? [];
+  const { nextLabel } = getStatus(order.status);
 
   // Let the Escape key close the pop-up
   useEffect(() => {
@@ -33,9 +36,7 @@ const OrderDetailModal = ({ order, onClose }) => {
             <h2 className="text-[#f6b100] text-2xl font-bold">{formatOrderNumber(order.orderNumber)}</h2>
             <p className="text-[#ababab] text-sm">{formatDateTime(order.createdAt)}</p>
           </div>
-          <span className="bg-[#262626] text-[#f6b100] text-xs font-semibold rounded-lg px-2 py-1">
-            {getStatusLabel(order.status)}
-          </span>
+          <StatusBadge status={order.status} />
         </div>
 
         <div className="mt-3 text-sm text-[#ababab] break-words">
@@ -78,9 +79,31 @@ const OrderDetailModal = ({ order, onClose }) => {
           </div>
         </div>
 
+        {history.length > 0 && (
+          <div className="mt-3 border-t border-[#343434] pt-3">
+            <p className="text-[#ababab] text-xs uppercase tracking-wide mb-1">Progress</p>
+            {history.map((entry) => (
+              <div key={`${entry.status}-${entry.at}`} className="flex justify-between text-sm py-0.5">
+                <span className={getStatus(entry.status).textClass}>{getStatus(entry.status).label}</span>
+                <span className="text-[#ababab]">{formatTime(entry.at)}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {nextLabel && (
+          <button
+            onClick={() => onAdvance(order)}
+            className="mt-4 w-full bg-[#f6b100] text-[#1a1a1a] font-semibold rounded-lg py-3 md:py-2"
+          >
+            {nextLabel}
+          </button>
+        )}
         <button
           onClick={onClose}
-          className="mt-4 w-full bg-[#f6b100] text-[#1a1a1a] font-semibold rounded-lg py-3 md:py-2"
+          className={`mt-2 w-full font-semibold rounded-lg py-3 md:py-2 ${
+            nextLabel ? 'bg-[#262626] text-[#f5f5f5]' : 'bg-[#f6b100] text-[#1a1a1a]'
+          }`}
         >
           Close
         </button>

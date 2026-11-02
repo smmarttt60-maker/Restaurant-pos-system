@@ -119,6 +119,7 @@ export const buildOrder = (draft, existingOrders, now) => {
     orderNumber,
     createdAt: now.toISOString(),
     status: 'new',
+    statusHistory: [{ status: 'new', at: now.toISOString() }],
     orderType,
     details: pickDetails(orderType, details),
     items: copiedItems,

@@ -71,7 +71,7 @@ const OrderSummary = ({ onClose }) => {
             {getOrderTypeLabel(placedOrder.orderType)}
             {placedOrder.orderType === 'dine-in' && ` · Table ${placedOrder.details.tableNumber}`}
             {' · '}
-            {placedOrder.items.reduce((sum, item) => sum + item.quantity, 0)} items
+            {placedOrder.items.reduce((sum, item) => sum + item.quantity, 0)} {placedOrder.items.reduce((sum, item) => sum + item.quantity, 0) === 1 ? 'item' : 'items'}
           </p>
           <p className="text-[#f5f5f5] font-bold text-lg mt-1">{formatPrice(placedOrder.total)}</p>
           <p className="text-[#ababab] text-xs mt-4">
