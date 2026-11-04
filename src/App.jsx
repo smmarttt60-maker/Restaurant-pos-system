@@ -4,12 +4,14 @@ import Header from "./components/shared/Header";
 import BottomNav from "./components/shared/BottomNav";
 import CartProvider from "./context/CartProvider";
 import OrdersProvider from "./context/OrdersProvider";
+import PrintProvider from "./context/PrintProvider";
 
 function App() {
   
 
   return (
     <>
+<PrintProvider>
 <OrdersProvider>
 <CartProvider>
 <Router>
@@ -25,6 +27,7 @@ function App() {
     </Router>
 </CartProvider>
 </OrdersProvider>
+</PrintProvider>
 
     </>
   )

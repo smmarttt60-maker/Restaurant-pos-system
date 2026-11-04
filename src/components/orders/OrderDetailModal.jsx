@@ -5,6 +5,7 @@ import { formatOrderNumber } from '../../utilis/orderLogic';
 import { formatPrice } from '../../utilis/formatPrice';
 import { formatDateTime, formatTime } from '../../utilis/formatDate';
 import StatusBadge from './StatusBadge';
+import PrintButtons from '../print/PrintButtons';
 
 // A pop-up showing one saved order, exactly as it was placed.
 const OrderDetailModal = ({ order, onClose, onAdvance }) => {
@@ -90,6 +91,8 @@ const OrderDetailModal = ({ order, onClose, onAdvance }) => {
             ))}
           </div>
         )}
+
+        <PrintButtons order={order} />
 
         {nextLabel && (
           <button

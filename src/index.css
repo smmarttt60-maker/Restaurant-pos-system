@@ -1,8 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
- 
- @tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 body {
   font-family:'Inter',sans-serif;
+}
+
+/* ---------- Printing ----------
+   The receipt / kitchen ticket is drawn inside #print-root (see PrintProvider).
+   Hidden on screen; when printing, the app is hidden and only #print-root is shown. */
+#print-root {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 4mm;
+  }
+  html,
+  body {
+    background: #ffffff !important;
+  }
+  #root {
+    display: none !important;
+  }
+  #print-root {
+    display: block !important;
+  }
 }

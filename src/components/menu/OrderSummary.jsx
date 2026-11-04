@@ -4,6 +4,7 @@ import { useOrders } from '../../context/OrdersContext';
 import { getOrderTypeLabel } from '../../constants/orderTypes';
 import { formatPrice } from '../../utilis/formatPrice';
 import { formatOrderNumber, validateOrder } from '../../utilis/orderLogic';
+import PrintButtons from '../print/PrintButtons';
 
 // A pop-up with two steps: 1) check the order and place it, 2) confirmation.
 const OrderSummary = ({ onClose }) => {
@@ -74,9 +75,7 @@ const OrderSummary = ({ onClose }) => {
             {placedOrder.items.reduce((sum, item) => sum + item.quantity, 0)} {placedOrder.items.reduce((sum, item) => sum + item.quantity, 0) === 1 ? 'item' : 'items'}
           </p>
           <p className="text-[#f5f5f5] font-bold text-lg mt-1">{formatPrice(placedOrder.total)}</p>
-          <p className="text-[#ababab] text-xs mt-4">
-            Receipts and kitchen tickets come in the next features.
-          </p>
+          <PrintButtons order={placedOrder} />
           <button
             onClick={onClose}
             className="mt-4 w-full bg-[#f6b100] text-[#1a1a1a] font-semibold rounded-lg py-3 md:py-2"
